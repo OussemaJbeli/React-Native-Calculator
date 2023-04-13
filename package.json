@@ -9,10 +9,20 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@expo/webpack-config": "^18.0.1",
     "expo": "~48.0.10",
     "expo-status-bar": "~1.4.4",
+    "google-translate-api": "^2.3.0",
+    "http": "^0.0.1-security",
+    "https": "^1.0.0",
+    "path": "^0.12.7",
+    "querystring": "^0.2.1",
     "react": "18.2.0",
-    "react-native": "0.71.6"
+    "react-native": "0.71.6",
+    "react-native-web": "~0.18.10",
+    "stream": "^0.0.2",
+    "url": "^0.11.0",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
