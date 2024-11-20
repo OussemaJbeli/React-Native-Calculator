@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity ,StyleSheet } from 'react-native';
+import Award from './assets/svg/delete.js';
 import styles from "./App.style";
+import { enableScreens } from 'react-native-screens';
+import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
 export default function App() {
   const [result, setResult] = useState('');
@@ -15,10 +18,16 @@ export default function App() {
         if(num == '.' && !num1){
           setNum1('');
         }
+        if(num == '0' && (num1=='0' || !num1)){
+          setNum1('0');
+        }
       } else {
         setNum2(num2 + num.toString());
         if(num == '.' && !num2){
           setNum2('');
+        }
+        if(num == '0' && (num2=='0' || !num2)){
+          setNum2('0');
         }
       }
     }
@@ -56,23 +65,28 @@ export default function App() {
   };
 
   const handleResult = () => {
-    let res;
-    switch (operator) {
-      case '+':
-        res = Number(num1) + Number(num2);
-        break;
-      case '-':
-        res = Number(num1) - Number(num2);
-        break;
-      case '*':
-        res = Number(num1) * Number(num2);
-        break;
-      case '/':
-        res = Number(num1) / Number(num2);
-        break;
+    if(num1 && num2 && operator){
+      let res;
+      switch (operator) {
+        case '+':
+          res = Number(num1) + Number(num2);
+          break;
+        case '-':
+          res = Number(num1) - Number(num2);
+          break;
+        case '*':
+          res = Number(num1) * Number(num2);
+          break;
+        case '/':
+          res = Number(num1) / Number(num2);
+          break;
+      }
+      setResult(res.toString());
+      setNum2(Number(num2));
     }
-    setResult(res.toString());
-    setNum2(Number(num2));
+    else{
+      setResult('');
+    }
   };
   
   const negative_signe = () => {
@@ -97,11 +111,18 @@ export default function App() {
     setOperator('');
   };
   const handleClear = () => {
-    if (num1 && num2) {
-      setNum2(Number(num2%10));
+    if (num2) {
+      num = num2.toString()
+      let newStr = num.substring(0, num.length - 1);
+      setNum2(newStr);
+    }
+    else if (operator) {
+      setOperator('');
     }
     else if (num1) {
-      setNum1(Number(num1%10));
+      num = num1.toString()
+      let newStr = num.substring(0, num.length - 1);
+      setNum1(newStr);
     }
   };
 
@@ -118,13 +139,17 @@ export default function App() {
             <Text style={styles.operatorButtonText}>C</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.clearButton]} onPress={handleClear}>
-            <Text style={styles.operatorButtonText}>c</Text>
+          {/* <Svg height="100" width="100">
+            <Circle cx="50" cy="50" r="45" stroke="blue" strokeWidth="2" fill="green" />
+          </Svg> */}
+          {/* <Text style={{ fontFamily: 'FontAwesome', fontSize: 24 }}>&#xf12d;</Text> */}
+            <Award />
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button]} onPress={() => handleOperator('/')}>
             <Text style={styles.operatorButtonText}>/</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button]} onPress={() => handleOperator('*')}>
-            <Text style={styles.operatorButtonText}>*</Text>
+            <Text style={{ fontFamily: 'FontAwesome', fontSize: 24 }}>&#xf00d;</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.row}>
